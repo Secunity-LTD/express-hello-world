@@ -10,7 +10,7 @@ const app = express();
 const port = 3000;
 const saltRounds = 10;
 
-mongoose.connect(process.env.MongoDB_URL, {
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }) 
