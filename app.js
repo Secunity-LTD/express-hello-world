@@ -1,5 +1,4 @@
 // server.js
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -11,7 +10,7 @@ const app = express();
 const port = 3000;
 const saltRounds = 10;
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MongoDB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }) 
