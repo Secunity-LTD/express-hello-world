@@ -27,7 +27,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/api/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, type } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -36,7 +36,7 @@ app.post('/api/signup', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ email, password: hashedPassword, type });
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully' });
@@ -47,7 +47,7 @@ app.post('/api/signup', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, type } = req.body;
 
   try {
     const user = await User.findOne({ email });
