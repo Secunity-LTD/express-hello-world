@@ -75,7 +75,7 @@ app.post('/api/login', async (req, res) => {
 // Create Team
 app.post('/api/Team', async (req, res) => {
   console.log(req.body);
-  const { teamName } = req.body;
+  const teamName = req.body.teamName;
   console.log("TEAMNAME: " + teamName);
 
   try {
