@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const User = require('./models/user_model');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
