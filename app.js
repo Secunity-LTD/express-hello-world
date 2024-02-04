@@ -47,7 +47,7 @@ app.post('/api/signup', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { email, password, type } = req.body;
+  const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
@@ -63,6 +63,25 @@ app.post('/api/login', async (req, res) => {
     const user_type = user.type;
     res.status(200).json({ message: 'Login successful', type: user_type });
   } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+app.post('/api/Teams', async (req, res) => {
+  const { teamName } = req.body;
+
+  try {
+    const existingTeam = await
+    Team.findOne({ teamName });
+    if (existingTeam) {
+      return res.status(409).json({ message: 'Team Name already exists' });
+    }
+
+    const newTeam = new Team({ teamName: teamName });
+    await newTeam.save();
+    res.status(200).json({ message: 'Team added successfully'});
+  }catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
