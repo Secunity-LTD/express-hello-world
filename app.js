@@ -77,12 +77,12 @@ app.post('/api/Team', async (req, res) => {
   const { teamName } = req.body;
 
   try {
-    const existingTeam = await Team.findOne({ name: teamName});
+    const existingTeam = await Team.findOne({ teamName});
     if (existingTeam) {
       return res.status(409).json({ message: 'Team Name already exists' });
     }
     
-    const newTeam = new Team({ teamName: teamName });
+    const newTeam = new Team({ name: teamName });
     await newTeam.save();
 
     res.status(200).json({ message: 'Team added successfully' });
