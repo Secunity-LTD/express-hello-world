@@ -10,9 +10,6 @@ const app = express();
 const port = 3000;
 const saltRounds = 10;
 
-const connectionString = 'mongodb+srv://Secunity:Secunity282@cluster0.4kv16wv.mongodb.net/secunity?retryWrites=true&w=majority';
-const dbName = 'Secunity';
-
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -29,6 +26,7 @@ connection.once('open', () => {
 app.use(cors());
 app.use(bodyParser.json());
 
+// Sign Up
 app.post('/api/signup', async (req, res) => {
   const { email, password, type } = req.body;
 
@@ -49,6 +47,7 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+// Login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -71,38 +70,25 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.post('/api/Teams', async (req, res) => {
-  const collectionName = 'Team';
-  
+// Create Team
+app.post('/api/Team', async (req, res) => {
   const { teamName } = req.body;
 
-  const client = new MongoClient(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
-
   try {
-    // Connect to the MongoDB server
-    await client.connect();
+    const existingTeam = await
+    Team.findOne({ teamName });
+    if (existingTeam) {
+      return res.status(409).json({ message: 'Team Name already exists' });
+    }
+    
+    const newTeam = new Team({ teamName: teamName });
+    await newTeam.save();
 
-    const document = {
-      teamName: teamName,
-      teamLeader: teamLeader,
-      teamMembers: teamMembers,
-      // Add other fields as needed
-  };
-
-    // Access the specified database and collection
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-
-    // Insert the document into the collection
-    const result = await collection.insertOne(document);
-
-    // Log the inserted document's ID
-    console.log(`Document inserted with ID: ${result.insertedId}`);
-  } finally {
-    // Close the MongoDB connection
-    await client.close();
+    res.status(200).json({ message: 'Team added successfully'});
+  }catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
-
 });
 
 app.listen(port, () => {

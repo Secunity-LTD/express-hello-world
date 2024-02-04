@@ -8,6 +8,6 @@ const teamSchema = new mongoose.Schema({
     members: [User],
 });
 
-const Team = mongoose.model('Teams', teamSchema);
+const Team = mongoose.model('Team', teamSchema);
 
 module.exports = Team;
