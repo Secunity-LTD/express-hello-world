@@ -7,6 +7,6 @@ const userSchema = new mongoose.Schema({
   type: {type: String, required: true}
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('Game', userSchema); 
 
 module.exports = User;
