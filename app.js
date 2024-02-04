@@ -77,7 +77,7 @@ app.post('/api/Team', async (req, res) => {
   const { teamName } = req.body;
 
   try {
-    const existingTeam = await Team.findOne({ teamName });
+    const existingTeam = await Team.findOne({ name: teamName});
     if (existingTeam) {
       return res.status(409).json({ message: 'Team Name already exists' });
     }
