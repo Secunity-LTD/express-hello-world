@@ -88,6 +88,7 @@ app.post('/api/Team', async (req, res) => {
     res.status(200).json({ message: 'Team added successfully' });
   } catch (error) {
     console.error(error);
+    console.error("Error in creating team :" + teamName);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
