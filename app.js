@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const User = require('./models/user_model');
+const Team = require('./models/team_model');
 
 const app = express();
 const port = 3000;
