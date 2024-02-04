@@ -75,8 +75,7 @@ app.post('/api/Team', async (req, res) => {
   const { teamName } = req.body;
 
   try {
-    const existingTeam = await
-    Team.findOne({ teamName });
+    const existingTeam = await Team.findOne({ teamName });
     if (existingTeam) {
       return res.status(409).json({ message: 'Team Name already exists' });
     }
@@ -84,8 +83,8 @@ app.post('/api/Team', async (req, res) => {
     const newTeam = new Team({ teamName: teamName });
     await newTeam.save();
 
-    res.status(200).json({ message: 'Team added successfully'});
-  }catch (error) {
+    res.status(200).json({ message: 'Team added successfully' });
+  } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
