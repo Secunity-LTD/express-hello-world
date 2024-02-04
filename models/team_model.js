@@ -4,7 +4,7 @@ const User = require('./user_model');
 
 const teamSchema = new mongoose.Schema({
     name: { type: String, unique: true, required: true},
-    commander: { commander: User, required: false},
+    commander: { type: User, required: false},
     members: { type: [User], required: false}
 });
 
