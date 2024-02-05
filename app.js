@@ -63,37 +63,37 @@ app.post('/api/login', async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-
+    const user_id = user._id;
     const user_type = user.type;
-    res.status(200).json({ message: 'Login successful', type: user_type });
+    res.status(200).json({ message: 'Login successful', type: user_type, _id: user_id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
+
 // Create Team
 app.post('/api/Team', async (req, res) => {
-  console.log(req.body);
-  const teamName = req.body.teamName;
-  console.log("TEAMNAME: " + teamName);
+  const { teamName, creatorId } = req.body;
 
   try {
-    const existingTeam = await Team.findOne({ name: teamName }); //--
+    const existingTeam = await Team.findOne({ name: teamName });
     if (existingTeam) {
       return res.status(409).json({ message: 'Team Name already exists' });
     }
-    
-    const newTeam = new Team({ name: teamName }); //--
+
+    const newTeam = new Team({ name: teamName, creator: creatorId });
     await newTeam.save();
 
     res.status(200).json({ message: 'Team added successfully' });
   } catch (error) {
     console.error(error);
     console.error("Error in creating team :" + teamName);
-    res.status(500).json({ message: 'Internal Server Error in sever'});
+    res.status(500).json({ message: 'Internal Server Error in server'});
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
